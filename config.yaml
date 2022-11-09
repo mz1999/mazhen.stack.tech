@@ -195,17 +195,17 @@ menu:
           name: GitHub
           url: https://github.com/mz1999
           params:
-              icon: github
+              icon: brand-github
         - identifier: twitter
           name: twitter
           url: https://twitter.com/mazhen
           params:
-              icon: twitter
+              icon: brand-twitter
         - identifier: mail
           name: Email
           url: "mailto:me@mazhen.tech"
           params:
-              icon: maildotru
+              icon: email
         #- identifier: facebook
         #  name: facebook
         #  url: "https://www.facebook.com/mazhen1999"
