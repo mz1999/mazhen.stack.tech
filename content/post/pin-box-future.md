@@ -1,5 +1,5 @@
 ---
-title: "Pin-Box-Future解析"
+title: "Pin<Box<dyn Future<>>>解析"
 date: 2022-10-12T09:14:10+08:00
 draft: false
 tags: [rust]
@@ -144,7 +144,7 @@ impl Service<HttpRequest> for RequestHandler {
 }
 ```
 
-既然不能返回 `impl Trait` ，可以让 call 返回 `trait object`，用 `trait object` 统一返回值的类型。 
+既然不能返回 `impl Trait` ，可以让 call 返回 `trait object`，用 `trait object` 统一返回值的类型。
 
 ```rust
 impl Service<HttpRequest> for RequestHandler {
@@ -193,8 +193,6 @@ s2 浅copy s1 的内容，同时 String 的所有权转移给了 s2。
 自引用结构体，move了以后会出问题。
 
 <img src="https://cdn.mazhen.tech/images/202209201529136.webp" alt="pin" style="zoom: 33%;" />
-
-
 
 所以需要 Pin，不能move。
 
@@ -293,7 +291,7 @@ pub trait FutureExt: Future {
 
 所以，如果你的 `Future` 是 `Unpin`，那么即使`Future::poll` 要求传入的是 `Pin<&mut Self>`，对你也没有任何影响。
 
-## Box<dyn Futrue<>> 的问题
+## Box<dyn Futrue<\>\> 的问题
 
 回到上面的问题，我们想让 `Service::call` 返回 `trait object`，也就是 `Box<dyn Futrue<>>`，会编译不过，为什么呢？
 
@@ -347,7 +345,7 @@ impl Service<HttpRequest> for RequestHandler {
 
 这回终于可以了。事实上，在异步场景下，我们经常会看到使用 `Box::pin` 去包装 `async block`。
 
-## Pin<Box<dyn Future
+## Pin<Box<dyn Future<\>\>\>
 
 `Pin<Box<dyn Future<>>>` 除了实现了Future，也实现了 Unpin。
 
@@ -370,6 +368,6 @@ where
 
 因此 `Pin<Box<T>>`是 Unpin 的。可以这么理解，Pin 钉住了 T，但 Pin 本身是 Unpin的，可以安全的 move。
 
-很多异步方法需要你的 `Future` 同时实现了 `Unpin` ，例如[ tokio::select!()](https://docs.rs/tokio/latest/tokio/macro.select.html)，而 `async fn` 返回的 `Future` 显然不满足 `Unpin`，这个时候仍然可以用 `Box::pin`把 Future pin 住，得到的`Pin<Box<dyn Future<...>>>` 同时实现了 Future 和 Unpin，满足你的要求。
+很多异步方法需要你的 `Future` 同时实现了 `Unpin` ，例如[tokio::select!()](https://docs.rs/tokio/latest/tokio/macro.select.html)，而 `async fn` 返回的 `Future` 显然不满足 `Unpin`，这个时候仍然可以用 `Box::pin`把 Future pin 住，得到的`Pin<Box<dyn Future<...>>>` 同时实现了 Future 和 Unpin，满足你的要求。
 
 简单总结，在异步编程场景，我们经常会用`Box::pin` 包装 `async block`，获得同时实现了 Future 和 Unpin 的`Pin<Box<dyn Future<>>>`。
