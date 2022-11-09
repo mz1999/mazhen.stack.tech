@@ -2,7 +2,7 @@
 title: "BookKeeper实现分析"
 date: 2022-09-17T16:42:59+08:00
 draft: false
-tags: [java,mq]
+tags: [java,pulsar]
 categories: [tech] 
 ---
 
@@ -36,12 +36,11 @@ Bookie 操作基本都是在客户端完成和实现的，比如副本复制、�
 
 客户端在创建 ledger 时，会出现 Ensemble、Write Quorum 和 Ack Quorum 这些数据指标。
 
--   **Ensemble** —— 用哪几台 bookie 去存储 ledger 对应的 entry
-    
--   **Write Quorum** ——对于一条 entry，需要存多少副本
-    
--   **Ack Quorum** —— 在写 entry 时，要等几个 response
-    
+- **Ensemble** —— 用哪几台 bookie 去存储 ledger 对应的 entry
+
+- **Write Quorum** ——对于一条 entry，需要存多少副本
+
+- **Ack Quorum** —— 在写 entry 时，要等几个 response
 
 我们会用（5,3,2）的实例进行讲述
 
@@ -65,18 +64,17 @@ BookKeeper 有一个极其重要的功能，叫做 **fencing**。**fencing** 功
 
 Broker（B1）挂掉，Broker（B2）接管 B1 上topic X的流程：
 
-1.  当前拥有 topic X 所有权的Pulsar Broker（B1）被认为已经挂掉或不可用（通过ZooKeeper）。
-    
-2.  另一个Broker（B2）将topic X 的当前 ledger 的状态从 OPEN 更新为 IN_RECOVERY。
-    
-3.  B2 向当前 ledger 的所有 bookie 发送 fencing LAC read 请求，并等待(Write Quorum - Ack Quorum)+1的响应。一旦收到这个数量的回应，ledger 就已经被 fencing。B1就算还活着，也不能再写入这个ledger，因为B1无法得到 **Ack Quorum** 的确认。
-    
-4.  B2采取最高的LAC响应，然后开始执行从 LAC+1 的恢复性读取。它确保从该点开始的所有 entry 都被复制到 Write Quorum 个bookie。当 B2 不能再读取和复制任何entry，ledger 完成恢复。
-    
-5.  B2将 ledger 的状态改为 CLOSED。
-    
-6.  B2打开一个新的 ledger，现在可以接受对Topic X的写入。
-    
+1. 当前拥有 topic X 所有权的Pulsar Broker（B1）被认为已经挂掉或不可用（通过ZooKeeper）。
+
+2. 另一个Broker（B2）将topic X 的当前 ledger 的状态从 OPEN 更新为 IN_RECOVERY。
+
+3. B2 向当前 ledger 的所有 bookie 发送 fencing LAC read 请求，并等待(Write Quorum - Ack Quorum)+1的响应。一旦收到这个数量的回应，ledger 就已经被 fencing。B1就算还活着，也不能再写入这个ledger，因为B1无法得到 **Ack Quorum** 的确认。
+
+4. B2采取最高的LAC响应，然后开始执行从 LAC+1 的恢复性读取。它确保从该点开始的所有 entry 都被复制到 Write Quorum 个bookie。当 B2 不能再读取和复制任何entry，ledger 完成恢复。
+
+5. B2将 ledger 的状态改为 CLOSED。
+
+6. B2打开一个新的 ledger，现在可以接受对Topic X的写入。
 
 整个失效恢复的过程，是没有回头复用 ledger 的。因为复用意味着所有元素都处于相同状态且都同意后才能继续去读写，这个是很难控制的。
 
@@ -94,10 +92,9 @@ recovery 不是 BookKeeper 复制协议的一部分，而是在 BookKeeper 外�
 
 自动恢复进程 AutoRecoveryMain 可以在独立的服务器上运行，也可以和bookie跑在一起。其中一个自动恢复进程被选为审核员，然后进行如下操作：
 
-1.  从 zookeeper 读取所有的 ledger 列表，并找到位于失败 bookie上的 ledger。
-    
-2.  对于第一步找到的所有ledger，在ZooKeeper上创建一个复制任务。
-    
+1. 从 zookeeper 读取所有的 ledger 列表，并找到位于失败 bookie上的 ledger。
+
+2. 对于第一步找到的所有ledger，在ZooKeeper上创建一个复制任务。
 
 AutoRecoveryMain 进程会发现 ZooKeeper 上的复制任务，锁定任务，进行复制，满足Write quorum，最后删除任务。
 
