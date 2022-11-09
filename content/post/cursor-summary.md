@@ -5,4 +5,4 @@ draft: false
 tags: [db]
 categories: [tech]
 ---
-{{< embed-pdf url="https://cdn.mazhen.tech/images/202207011702216.pdf" >}}
+{{< embed-pdf url="./pdf/202207011702216.pdf" >}}
