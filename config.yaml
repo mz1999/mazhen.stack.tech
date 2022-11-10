@@ -8,12 +8,12 @@ languages:
     en:
         languageName: English
         title: mazhen.tech
-        description: mazhen.tech
+        description: "Linux,networking,Rust"
         weight: 2
     zh-cn:
         languageName: 中文
         title: mazhen.tech
-        description: mazhen.tech
+        description: "Linux,networking,Rust"
         weight: 1
 
 # Change it to your Disqus shortname before using
@@ -42,7 +42,7 @@ params:
     favicon: "/favicon.png"
 
     footer:
-        since: 2018
+        since: 2014
         customText: '<a target=\"_blank\" href=\"https://beian.miit.gov.cn\">粤ICP备2022085181号-1</a>'
 
     dateFormat:
