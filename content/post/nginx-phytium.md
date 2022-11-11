@@ -2,7 +2,7 @@
 title: "在国产飞腾平台上编译安装nginx"
 date: 2019-04-02T09:45:05+08:00
 draft: false
-tags: [linux]
+tags: [linux, nginx]
 categories: [tech]
 ---
 
