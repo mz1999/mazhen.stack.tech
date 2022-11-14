@@ -6,4 +6,4 @@ tags: [db,consensus]
 categories: [tech]
 
 ---
-{{< embed-pdf url="/pdf/202209241047269.pdf" >}}
+{{< embed-pdf url="./pdf/202209241047269.pdf" >}}

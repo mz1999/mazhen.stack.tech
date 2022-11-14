@@ -5,4 +5,4 @@ draft: false
 tags: [linux,kernel,docker]
 categories: [tech] 
 ---
-{{< embed-pdf url="/pdf/202209241626966.pdf" >}}
+{{< embed-pdf url="./pdf/202209241626966.pdf" >}}
