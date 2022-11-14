@@ -32,7 +32,7 @@ categories: [tech]
 
 实际上，操作系统的实现依赖 `CPU` 提供的功能。现代的`CPU`体系架构都提供几种特权级别，每个特权级别有各种限制。各级别可以看作是环，内环能够访问更多的功能，外环则较少，被称为[protection rings](https://en.wikipedia.org/wiki/Protection_ring)：
 
-<img src="https://cdn.mazhen.tech/images/202207112207458.png" style="zoom: 25%;" />
+![img](https://cdn.mazhen.tech/images/202207112207458.png)
 
  `Intel` 的 `CPU` 提供了4种特权级别， `Linux` 只使用了 `Ring0` 和 `Ring3` 两个级别。`Ring 0` 拥有最多的特权，它可以直接和CPU、内存等物理硬件交互。 `Ring 0` 被称为`内核态`，操作系统内核正是运行在`Ring 0`。`Ring 3`被称为`用户态`，应用程序运行在`用户态`。
 
@@ -40,7 +40,7 @@ categories: [tech]
 
 在`用户态`禁止直接访问`内核态`，也就是说不同通过普通的函数调用方式调用内核代码，而必须使用**系统调用**陷入（`trap`）内核，完成从`用户态`到`内核态`的切换。内核首先检查进程是否允许执行想要的操作，然后代表进程执行所需的操作，完成后再返回到`用户态`。
 
-<img src="https://cdn.mazhen.tech/images/202207112207187.png" style="zoom: 33%;" />
+![img](https://cdn.mazhen.tech/images/202207112207187.png)
 
 除了代表用户程序执行代码之外，内核还可以由硬件中断激活，然后在`中断上下文`中运行。另外除了普通进程，系统中还有`内核线程`在运行。`内核线程`不与任何特定的用户空间进程相关联。
 
@@ -68,11 +68,11 @@ categories: [tech]
 
 `Type-1`型`Hypervisor`的概念图：
 
-<img src="https://cdn.mazhen.tech/images/202207112208073.png" style="zoom: 67%;" />
+![img](https://cdn.mazhen.tech/images/202207112208073.png)
 
 `Type-2`型`Hypervisor`的概念图：
 
-<img src="https://cdn.mazhen.tech/images/202207112209569.png" style="zoom:67%;" />
+![img](https://cdn.mazhen.tech/images/202207112209569.png)
 
 ### KVM & QEMU
 
@@ -84,7 +84,7 @@ categories: [tech]
 
 相对应的，`QEMU`的另一种是虚拟化模式，它借助`KVM`完成处理器的虚拟化。由于和CPU的体系结构紧密关联，虚拟化模式能够带来更好的性能，限制是`Guest`必须使用和`Host`一样的CPU体系机构。这就是我们最常用到的虚拟化技术栈：`KVM/QEMU`
 
-<img src="https://cdn.mazhen.tech/images/202207112209527.png" style="zoom: 33%;" />
+![img](https://cdn.mazhen.tech/images/202207112209527.png)
 
 `KVM` 和 `QEMU` 有两种交互方式：通过设备文件`/dev/kvm` 和通过内存映射页面。`QEMU` 和 `KVM`之间的大块数据传递会使用内存映射页面。`/dev/kvm`是`KVM`暴露的主要API，它支持一系列`ioctl`接口，`QEMU` 使用这些接口和`KVM`交互。`/dev/kvm` API分为三个层次：
 
@@ -137,13 +137,13 @@ categories: [tech]
 
 [OpenStack](https://www.openstack.org/)在2017年底发布的 `KataContainers` 项目，最初是由 `Intel ClearContainer` 和 `Hyper runV` 两个项目合并而产生的。在`Kubernetes`场景下，一个`Pod`对应于`Kata Containers`启动的一个轻量化虚拟机，`Pod`中的容器，就是运行在这个轻量级虚拟机里的进程。每个`Pod`都运行在独立的操作系统内核上，从而达到安全隔离的目的。
 
-<img src="https://cdn.mazhen.tech/images/202207112211690.png" style="zoom:50%;" />
+![img](https://cdn.mazhen.tech/images/202207112211690.png)
 
 可以看出，`KataContainers` 依赖 `KVM/QEMU`技术栈。
 
 amazon最近开源的[Firecracker](https://firecracker-microvm.github.io/)也是为了实现在 functions-based services 场景下，多租户安全隔离的容器。
 
-<img src="https://cdn.mazhen.tech/images/202207112212515.png" style="zoom:100%;" />
+![img](https://cdn.mazhen.tech/images/202207112212515.png)
 
 `Firecracker`同样依赖`KVM`，然后它没有用到`QEMU`，因为`Firecracker`本身就是`QEMU`的替代实现。`Firecracker`是一个比`QEMU`更轻量级的`VMM`，它只仿真了4个设备：`virtio-net`，`virtio-block`，`serial console`和一个按钮的键盘，仅仅用来停止`microVM`。理论上，`KataContainers`可以用`Firecracker`换掉它现在使用的`QEMU`，从而将 `Firecracker`整合进`Kubernetes`生态圈。
 
@@ -161,7 +161,7 @@ Google 开源的[gVisor](https://github.com/google/gvisor)为了实现安全容�
 
 虽然 `gVisor` 今年才开源，但它已经在[Google App Engine](https://cloud.google.com/appengine/) 和 [Google Cloud Functions](https://cloud.google.com/functions/docs/)运行了多年。
 
-<img src="https://cdn.mazhen.tech/images/202207112213737.png" style="zoom: 50%;" />
+![img](https://cdn.mazhen.tech/images/202207112213737.png)
 
 `gVisor`作为运行应用的安全沙箱，扮演着`Virtual kernel`的角色。同时`gVisor` 包含了一个兼容[Open Container Initiative (OCI)](https://www.opencontainers.org/) 的运行时`runsc`，因此可以用它替换掉 Docker 的 `runc`，整合进`Kubernetes`生态圈，为`Kubernetes`带来另一种安全容器的实现方案。
 
@@ -176,6 +176,6 @@ Google 开源的[gVisor](https://github.com/google/gvisor)为了实现安全容�
 
 最后，对于像我这样没有读过Linux内核代码的后端程序员，`gVisor`是一个很好的窥探内核内部实现的窗口，又激起了我研究内核的兴趣。Twitter上看到有人和我有类似的看法：
 
-<img src="https://cdn.mazhen.tech/images/202207112214087.png" style="zoom:50%;" />
+![img](https://cdn.mazhen.tech/images/202207112214087.png)
 
 希望下次能分享`gVisor`深入研究系列。保持好奇心，Stay hungry. Stay foolish.

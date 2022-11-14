@@ -14,19 +14,19 @@ DNS（Domain Name System）简单说就是一个名称到IP地址的映射，使
 
 - `dig @222.172.200.68 login.alibaba-inc.com`
 
-<img src="https://cdn.mazhen.tech/images/202207011106325.png" style="zoom:67%;" />
+![img](https://cdn.mazhen.tech/images/202207011106325.png)
 
 - `dig @222.172.200.68 guang.taobao.com`
 
-<img src="https://cdn.mazhen.tech/images/202207011106370.png" style="zoom:67%;" />
+![img](https://cdn.mazhen.tech/images/202207011106370.png)
 
 - `dig @222.172.200.68 item.taobao.com`
 
-<img src="https://cdn.mazhen.tech/images/202207011107914.png" style="zoom:67%;" />
+![img](https://cdn.mazhen.tech/images/202207011107914.png)
 
 你会发现对于域名的查询，都不是直接返回IP地址这么简单，而是经过了神奇的`CNAME`。一般文档在介绍`CNAME`时只是说可以给一个域名指定别名（alias），其实这是`DNS`运维非常重要的手段，使得DNS配置具有一定的灵活性和可扩展性。结合上面三个域名的解析说一下。先给一张高大上的图，是按照我自己的理解画的，不一定完全正确:)
 
-![](https://cdn.mazhen.tech/images/202207011108895.jpeg)
+![img](https://cdn.mazhen.tech/images/202207011108895.jpeg)
 
 图上分了三层，最上层是常规的DNS解析过程，用户通过local DNS做递归查询，最终定位到taobao.com权威DNS服务器。
 

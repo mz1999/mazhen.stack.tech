@@ -192,7 +192,7 @@ s2 浅copy s1 的内容，同时 String 的所有权转移给了 s2。
 
 自引用结构体，move了以后会出问题。
 
-<img src="https://cdn.mazhen.tech/images/202209201529136.webp" alt="pin" style="zoom: 33%;" />
+![img](https://cdn.mazhen.tech/images/202209201529136.webp)
 
 所以需要 Pin，不能move。
 

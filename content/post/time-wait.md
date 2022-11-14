@@ -10,7 +10,7 @@ categories: [tech]
 
 TCP的基本知识，主动关闭连接的一方会处于`TIME_WAIT`状态，并停留两倍的`MSL`（Maximum segment lifetime）时长。
 
-<img src="https://cdn.mazhen.tech/images/202207011102616.png" alt="tcp" style="zoom:67%;" />
+![img](https://cdn.mazhen.tech/images/202207011102616.png)
 
 那就检查一下MSL的设置。网上有很多文章说，可以通过设置`net.ipv4.tcp_fin_timeout`来控制MSL。其实这有点误导人。查看[Linux kernel的文档](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt) ，发现tcp_fin_timeout是指停留在FIN_WAIT_2状态的时间：
 
