@@ -20,6 +20,7 @@ pub enum Poll<T> {
     Pending,
 }
 ```
+
 `Future` 代表一个异步计算，它会产生一个值。通过调用 `poll` 方法来推进 `Future` 的运行，如果 `Future` 完成了，它将返回 `Poll::Ready(result)`，我们拿到运算结果。如果 `Future` 还不能完成，可能是因为需要等待其他资源，它返回 `Poll::Pending`。等条件具备，如资源已经准备好，这个 `Future` 将被唤醒，再次进入 `poll`，直到计算完成获得结果。
 
 ## async/.await
@@ -110,31 +111,27 @@ async fn main() {
 }
 ```
 
-
-
 ## Pin
 
 `Future` 被每个 `await` 分成多段，执行到 `await` 可能因为资源没准备好而让出 CPU 暂停执行，随后该 `future` 可能被调度到其他线程接着执行。所以 `future` 结构中需要保存跨await的数据，形成了自引用结构。
 
-<img src="https://cdn.mazhen.tech/images/202209201453379.jpg" alt="future" style="zoom:50%;" />
+![future](https://cdn.mazhen.tech/images/202209201453379.jpg)
 
 自引用结构不能被移动，否则内部引用因为指向移动前的地址，引发不可控的问题。所以future需要被pin住，不能移动。
 
-<img src="https://cdn.mazhen.tech/images/202209201529136.webp" alt="Self-Referential Structure" style="zoom: 33%;" />
+![Self-Referential Structure](https://cdn.mazhen.tech/images/202209201529136.webp)
 
 如何让 `future` 不被move？ 方法调用时只传递引用，那么就没有移动 `future`。但是通过可变引用仍然可以使用 replace，swap 等方式移动数据。那么用 `Pin` 包装可变引用 `Pin<&mut T>`，让用户没法拿到 `&mut T`，就把这个漏洞堵上了。
 
-<img src="https://cdn.mazhen.tech/images/202209201445723.webp" alt="pin" style="zoom: 33%;" />
+![pin](https://cdn.mazhen.tech/images/202209201445723.webp)
 
-总之 `Pin<&mut T>` 不是数据的 owner，也没法获得 `&mut T`，所以就不能移动 T。 
+总之 `Pin<&mut T>` 不是数据的 owner，也没法获得 `&mut T`，所以就不能移动 T。
 
 注意，`Pin` 拿住的是一个可以解引用成 T 的指针类型 P，而不是直接拿原本的类型 T。Pin 本身是可 move 的，T 被 pin 住，不能 move。
 
 ## async runtime的内部实现
 
 要运行异步函数，必须将最外层的 `Future` 提交给 executor。 executor 负责调用Future::poll，推动异步计算的前进。
-
-
 
 ![executor](https://cdn.mazhen.tech/images/202209201433572.png)
 
