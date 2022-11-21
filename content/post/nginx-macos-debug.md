@@ -70,7 +70,20 @@ make install
 
 ## 配置VSCode
 
-使用 VSCode 打开 nginx 源码，点击菜单 "Run -> Starting Debugging"，在提升中选择 `LLDB`，创建出 `launch.json`，编辑该文件进行debug配置。将 "program" 设置为上一步编译出带有debug信息的nginx。
+首先参考 [VSCode 官方文档](https://code.visualstudio.com/docs/cpp/config-clang-mac)，完成 VS Code C++ 开发环境的配置。
+
+* 确认本机是否已经安装了 Clang 编译器：
+
+```shell
+# 确认是否安装了Clang
+$ clang --version 
+# 安装开发者命令行工具，包括Clang、git等
+$ xcode-select --install
+```
+
+* 安装 [C++ extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)。
+
+完成C++开发环境准备后，使用 VSCode 打开 nginx 源码，点击菜单 "Run -> Starting Debugging"，在提示中选择 `LLDB`，创建出 `launch.json`，编辑该文件进行 debug 配置。将 "program" 设置为上一步编译出带有debug信息的nginx。
 
 ```json
 {
@@ -91,6 +104,6 @@ make install
 }
 ```
 
-现在就可以在代码中设置断点，再次点击 "Run -> Starting Debugging"，调试Nginx了。
+现在就可以在代码中设置断点，再次点击 "Run -> Starting Debugging"，开始调试 Nginx 吧。
 
 ![debug nginx](https://cdn.mazhen.tech/images/202211211116679.png)
