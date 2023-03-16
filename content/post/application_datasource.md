@@ -49,11 +49,11 @@ JDBC 还定义了 `DataSource` 接口的两个重要扩展：
 
 以连接池为例，JDBC driver 提供了 **ConnectionPoolDataSource** 的实现，应用服务器使用它来构建和管理连接池。客户端在使用相同的 JNDI 和 DataSource API 的同时获得更好的性能和可扩展性。
 
-<img src="https://cdn.mazhen.tech/images/202303101503461.png" alt="connection pool" style="zoom: 33%;" />
+![connection pool](https://cdn.mazhen.tech/images/202303101503461.png)
 
 应用服务器维护维护一个从 **ConnectionPoolDataSource** 对象返回的 **PooledConnection** 对象池。应用服务器的实现还可以向 PooledConnection 对象注册**ConnectionEventListener**，以获得连接事件的通知，如连接关闭和错误事件。
 
-<img src="https://cdn.mazhen.tech/images/202303160947605.png" alt="ConnectionPoolDataSource" style="zoom: 50%;" />
+![ConnectionPoolDataSource](https://cdn.mazhen.tech/images/202303160947605.png)
 
 我们看到，应用程序客户端通过 JNDI 查找一个 DataSource 对象，并请求从 DataSource 获得一个连接。当连接池没有可用连接时，DataSource 的实现从 JDBC driver 的 ConnectionPoolDataSource 中请求一个新的 PooledConnection 。应用服务器的 DataSource 实现会向 PooledConnection 注册一个ConnectionEventListener，随后获得一个新的 Connection 对象。应用客户端在完成操作后调用 `Connection.close()`，会生成一个 ConnectionEvent 实例，该实例会返回给应用服务器的数据源实现。在收到连接关闭的通知后，应用服务器可以将连接对象放回连接池中。
 
@@ -63,7 +63,7 @@ JDBC 还定义了 `DataSource` 接口的两个重要扩展：
 
 同样，如果想要分布式事务支持，应用服务器的 DataSource  需要依赖 driver 提供的 **XADataSource** 实现，同时通过 XAResource 和 Transaction Manager 交互。
 
-<img src="https://cdn.mazhen.tech/images/202303101754420.png" alt="XADataSource" style="zoom:33%;" />
+![XADataSource](https://cdn.mazhen.tech/images/202303101754420.png)
 
 **XADataSource** 对象返回 **XAConnection** ，该对象扩展了 PooledConnection ，增加了对分布式事务的参与能力。应用服务器的 DataSource 实现在XAConnection 对象上调用 getXAResource() 以获得传递给事务管理器的 **XAResource** 对象。事务管理器使用 XAResource 来管理分布式事务。
 
@@ -102,7 +102,7 @@ JTA 规范要求连接必须能够同时处理多个事务，这个功能被称�
 
 另外，应用服务器都实现了对 JCA（Java EE Connector Architecture）规范的支持。JCA 将应用服务器的事务、安全和连接管理等功能，与事务资源管理器集成，定义了一个标准的 SPI(Service Provider Interface) ，因此，一般应用服务器的连接池都在 JCA 中实现，JDBC DataSource 作为一种资源，被 JCA 统一管理。
 
-<img src="https://cdn.mazhen.tech/images/202303102216362.png" alt="jca" style="zoom:50%;" />
+![jca](https://cdn.mazhen.tech/images/202303102216362.png)
 
 由于外部连接池不能感知事务的存在，所以没办法做到事务对连接的独占，因此应用服务器不能直接整合第三方的连接池。
 
@@ -115,3 +115,4 @@ JTA 规范要求连接必须能够同时处理多个事务，这个功能被称�
 * 外部连接池作为特殊的 driver，已经内置了池化功能，连接池的相关参数最好和应用服务器的DataSource保持一致，因为连接池的实际大小受到外部连接池的约束。
 
 这个解决方案的问题是，应用服务器和外部连接池都对连接做的池化，实际上是建立了两个连接池，存在很大的浪费。更优的做法是，对外部连接池进行适当改造，让它能感知事务的存在，例如 [Agroal](https://github.com/agroal/agroal) 连接池能够和 Transaction Manager进行整合。
+
