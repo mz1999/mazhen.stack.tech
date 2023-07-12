@@ -8,13 +8,15 @@ languages:
     en:
         languageName: English
         title: mazhen.tech
-        description: "Linux,networking,Rust"
         weight: 2
+        params:
+            description: "Linux,networking,Rust"
     zh-cn:
         languageName: 中文
         title: mazhen.tech
-        description: "Linux,networking,Rust"
         weight: 1
+        params:
+            description: "Linux,networking,Rust"
 
 # Change it to your Disqus shortname before using
 disqusShortname: mazhen-tech
