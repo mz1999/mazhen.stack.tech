@@ -6,7 +6,7 @@ tags: [db,consensus,java]
 categories: [tech]
 ---
 
-![jakartaone](https://jakartaone.org/images/jakartaone_livestream_wht_full-06.svg)
+![jakartaone](https://cdn.mazhen.tech/images/202309271901455.png)
 
 我在 [Jakarta EE 中文技术大会上](https://jakartaone.org/zh/2023/chinese/)的分享 《Jakarta EE应用服务器的事务处理》
 
