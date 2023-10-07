@@ -6,7 +6,7 @@ tags: [cs,linux]
 categories: [tech]
 ---
 
-<img src="https://raw.githubusercontent.com/mz1999/material/master/images/202310071053668.jpeg" alt="cs resource" style="zoom:50%;" />
+<img src="https://cdn.mazhen.tech/images/202310071804322.jpeg" alt="cs resource" style="zoom:50%;" />
 
 *题图使用 [Microsoft Bing 图像创建](https://bing.com/create)器生成。*
 
