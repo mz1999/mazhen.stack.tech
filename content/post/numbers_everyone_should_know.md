@@ -5,6 +5,10 @@ draft: false
 tags: [cs]
 categories: [tech]
 ---
+<img src="https://cdn.mazhen.tech/images/202310111653873.jpeg" alt="title" style="zoom:50%;" />
+
+*题图使用 [Microsoft Bing 图像创建](https://bing.com/create)器生成。*
+
 对于[冯·诺伊曼体系结构](https://en.wikipedia.org/wiki/Von_Neumann_architecture)的计算机，CPU 要数据才能正常工作。如果没有可处理的数据，那么CPU的运算速度再快也没有用，它只能等待。
 
 在计算机和芯片发展的历史中，CPU 速度不断提高，但主内存的访问速度改进相对较慢，导致 CPU经常处于等待数据的状态，无法充分发挥其处理能力。为了解决这个问题，出现了 CPU 缓存。
