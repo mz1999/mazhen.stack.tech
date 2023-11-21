@@ -6,6 +6,8 @@ tags: [linux,kernel]
 categories: [tech] 
 ---
 
+![title](https://cdn.mazhen.tech/images/202311211430792.png)
+
 ## perf 是什么
 
 [perf](https://perf.wiki.kernel.org/index.php/Main_Page) 是由 Linux 官方提供的系统性能分析工具 。我们通常说的 perf 实际上包含两部分：
