@@ -67,6 +67,7 @@ categories: [tech]
 * 极客时间：[算法面试通关 40 讲](https://time.geekbang.org/course/intro/100019701)
 * 极客时间：[常用算法 25 讲](https://time.geekbang.org/opencourse/intro/100057601)
 * 极客时间：算法训练营
+* [Hello 算法](https://www.hello-algo.com/) 动画图解、一键运行的数据结构与算法教程
 * [通过动画可视化数据结构和算法](https://visualgo.net/zh)
 
 ## 综合
@@ -75,6 +76,7 @@ categories: [tech]
 * YouTube视频课：[Crash Course Computer Science Preview](https://www.youtube.com/watch?v=tpIctyqH29Q&list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo)
 * [计算机教育中缺失的一课](https://missing-semester-cn.github.io/)
 * [Developer Roadmaps](https://roadmap.sh/) 为开发者提供学习路线图和指南
+* [Online Coding Classes – For Beginners](https://www.freecodecamp.org/news/online-coding-classes-for-beginners-2022-guide/)  3000 小时的免费课程，涵盖了编程涉及到的方方面面
 
 ## 技术面试
 
