@@ -79,6 +79,12 @@ categories: [tech]
 * [Developer Roadmaps](https://roadmap.sh/) 为开发者提供学习路线图和指南
 * [Online Coding Classes – For Beginners](https://www.freecodecamp.org/news/online-coding-classes-for-beginners-2022-guide/)  3000 小时的免费课程，涵盖了编程涉及到的方方面面
 
+## 在线课程
+
+* [educative](https://www.educative.io/) 为开发者提供交互式在线课程，重点关注技术领域的知识与技能
+* [edX](https://www.edx.org/) 由麻省理工学院（MIT）和哈佛大学共同创立的在线教育平台
+* [exercism](https://exercism.org/) 专注于通过有趣且具有挑战性的练习问题、支持建设性同行评审机制来促进积极参与和技能提升，从而培养对各种现代计算范式的熟练掌握。
+
 ## 技术面试
 
 * [Leetcode](https://leetcode.com/) 一个广受欢迎的在线编程题库
