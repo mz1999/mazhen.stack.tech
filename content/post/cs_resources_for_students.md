@@ -95,6 +95,19 @@ categories: [tech]
 * [Pramp](https://www.pramp.com/) 一个模拟面试平台
 * [Meetapro](https://www.meetapro.com/) 一个可以找到专业人士进行模拟面试的网站
 
+## 交互式教程
+
+* [Grep by example](https://antonz.org/grep-by-example/) 如何使用命令行工具 grep 进行文本搜索的交互式指南
+* [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN) 一个交互式的在线教程，帮助用户学习并练习 Git 的基本使用方法
+
+## 大语言模型
+
+* [Learn Prompting](https://learnprompting.org/zh-Hans/docs/intro) 一个开源的、多元化社区构建的课程，旨在提供完整、公正的提示工程知识。
+* [提示工程指南](https://www.promptingguide.ai/zh) 介绍大语言模型（LLM）相关的论文研究、学习指南、模型、讲座、参考资料、大语言模型能力及其与其他工具的对接。
+* [面向开发者的大模型手册](https://datawhalechina.github.io/llm-cookbook/) 基于吴恩达大模型系列课程的翻译和复现项目，涵盖了从 Prompt Engineering 到 RAG 开发的全部流程，为国内开发者提供了学习和入门 LLM 相关项目的方式。
+* [LLM 应用开发实践笔记](https://aitutor.liduos.com/) 作者在学习基于大语言模型的应用开发过程中总结出来的经验和方法，包括理论学习和代码实践两部分。
+* [动手学大模型应用开发](https://datawhalechina.github.io/llm-universe/) 面向小白开发者的大模型应用开发教程，基于阿里云服务器，结合个人知识库助手项目，通过一个课程完成大模型开发的重点入门。
+
 ## iOS开发
 
 * [iOS & Swift - The Complete iOS App Development Bootcamp](https://www.udemy.com/course/ios-13-app-development-bootcamp/)
