@@ -200,7 +200,7 @@ menu:
               icon: brand-github
         - identifier: twitter
           name: twitter
-          url: https://twitter.com/mazhen
+          url: https://twitter.com/ShieldVoyager
           params:
               icon: brand-twitter
         - identifier: mail
@@ -215,7 +215,7 @@ menu:
         #      icon: facebook
         - identifier: telegram
           name: telegram
-          url: "https://t.me/sword_holder"
+          url: "https://t.me/MysticGuardian"
           params:
               icon: telegram
         - identifier: instagram
