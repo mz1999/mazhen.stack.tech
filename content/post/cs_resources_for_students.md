@@ -24,6 +24,16 @@ categories: [tech]
 * [穿越计算机的迷雾](https://book.douban.com/subject/30198087/)
 * [嵌入式C语言自我修养](https://book.douban.com/subject/35446929/)
 
+## 编程
+
+* [征服C指针](https://book.douban.com/subject/35384099/) 彻底理解和掌握指针的各种用法和技巧
+* [C专家编程](https://book.douban.com/subject/35218533/) Sun公司编译器和OS核心开发团队成员，对C的历史、语言特性、声明、数组、指针、链接、运行时、内存等问题进行了细致的讲解和深入的分析
+* [C from Scratch](https://github.com/theokwebb/C-from-Scratch) 一个学习 C 语言的从零开始的路线图，包括推荐的课程、项目和资源，以及进阶到 x86-64 汇编语言和操作系统内部的指导。
+* [Online Compiler, Visual Debugger](https://pythontutor.com/) 独特的逐步可视化调试工具，强烈推荐！
+* 极客时间：[深入 C 语言和程序运行原理](https://time.geekbang.org/column/intro/100100701)
+* [Linux/UNIX系统编程手册](Linux/UNIX系统编程手册) The Linux Programming Interface: A Linux and UNIX System Programming Handbook
+* [UNIX环境高级编程](https://book.douban.com/subject/25900403/) Advanced Programming in the UNIX Environment
+
 ## Linux
 
 * 极客时间：[Linux 实战技能 100 讲](https://time.geekbang.org/course/intro/100029601)
@@ -48,14 +58,6 @@ categories: [tech]
 * [图解TCP/IP](https://book.douban.com/subject/24737674/)
 * [图解HTTP](https://book.douban.com/subject/25863515/)
 * [网络是怎样连接的](https://book.douban.com/subject/26941639/)
-
-## 编程
-
-* [C专家编程](https://book.douban.com/subject/35218533/) Expert C Programming: Deep C Secrets
-* [Online Compiler, Visual Debugger](https://pythontutor.com/) 独特的逐步可视化调试工具，强烈推荐！
-* 极客时间：[深入 C 语言和程序运行原理](https://time.geekbang.org/column/intro/100100701)
-* [Linux/UNIX系统编程手册](Linux/UNIX系统编程手册) The Linux Programming Interface: A Linux and UNIX System Programming Handbook
-* [UNIX环境高级编程](https://book.douban.com/subject/25900403/) Advanced Programming in the UNIX Environment
 
 ## 编译原理
 
