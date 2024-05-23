@@ -162,7 +162,7 @@ params:
     opengraph:
         twitter:
             # Your Twitter username
-            site: mazhen
+            site: rootletmistake
 
             # Available values: summary, summary_large_image
             card: summary_large_image
@@ -200,7 +200,7 @@ menu:
               icon: brand-github
         - identifier: twitter
           name: twitter
-          url: https://twitter.com/ShieldVoyager
+          url: https://twitter.com/rootletmistake
           params:
               icon: brand-twitter
         - identifier: mail
@@ -215,12 +215,12 @@ menu:
         #      icon: facebook
         - identifier: telegram
           name: telegram
-          url: "https://t.me/MysticGuardian"
+          url: "https://t.me/crownrecount"
           params:
               icon: telegram
         - identifier: instagram
           name: instagram
-          url: "https://www.instagram.com/sword_holder/"
+          url: "https://www.instagram.com/clippercongo/"
           params:
               icon: instagram
 
