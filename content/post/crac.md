@@ -296,7 +296,7 @@ ino:	32775204
 
 **寄生代码**是一段精心构造的小型二进制程序，它以**位置无关可执行文件 (PIE, Position-Independent Executable)** 格式编译。这一特性至关重要，因为它允许 CRIU 将这段代码加载到目标进程地址空间中的**任何可用位置**，而无需担心因硬编码地址引发的冲突。该代码通常包含两部分：一小段依赖于具体处理器架构（如 x86, ARM）的汇编**引导程序 (bootstrap)**，以及一段用 C 语言编写、负责处理命令的通用**核心逻辑 (daemon)**。
 
-![Parasite Code](https://cdn.mazhen.tech/2024/202504251748420.png)
+<img src="https://cdn.mazhen.tech/2024/202504251748420.png" alt="Parasite Code" style="zoom:33%;" />
 
 要在目标进程中运行，**寄生代码**需要自己的内存空间来存放其代码、运行栈以及用于和 CRIU 进行通信的参数区域。由于 CRIU 不能直接操作目标进程的内存分配，它巧妙地利用了 `ptrace` 机制：
 
@@ -374,7 +374,7 @@ CRIU 准备好恢复所需的数据（如最终内存映射信息、线程状态
 在 **Restorer Context** 中，完成最后几项资源的恢复：
 - **内存映射 (Memory):** 使用 `mremap()` 将之前映射在临时地址的私有匿名内存移动到最终的目标虚拟地址。使用 `mmap()` 在正确的地址创建文件映射和共享内存映射（可能通过之前准备好的 `memfd` 文件描述符来实现共享）。此时，完整的、精确的进程内存布局被建立起来。
 - **定时器 (Timers):** 恢复并启动所有的定时器。因为此时环境已稳定，可以避免定时器过早触发或计时偏差。
-- **凭证 (Credentials):** 设置进程最终的用户ID、组ID、能力集等。这通常在需要特权的操作（如 `fork()` 指定PID）完成后，但在彻底放弃特权之前进行。
+- **凭证 (Credentials):** 设置进程最终的用户 ID、组 ID、能力集等。这通常在需要特权的操作（如 `fork()` 指定 PID）完成后，但在彻底放弃特权之前进行。
 - **线程 (Threads):** 在最终的内存布局中，根据保存的状态创建并恢复目标进程的所有其他线程。
 
 最后，**Restorer Context** 完成所有设置后，它会**精确地恢复目标进程主线程的寄存器状态**（包括最重要的**指令指针 IP/PC**，指向检查点时刻被中断的那条指令），然后将 CPU 的控制权彻底交还给目标进程。至此，目标进程就像从未被打断过一样，从检查点时刻的状态**无缝地继续执行**。
@@ -388,7 +388,7 @@ CRIU 通过 `ptrace` 和精心设计的**寄生代码**机制，以及对 `/proc
 
 对于这个问题，我查阅了 CRaC 所有相关的文档，阅读了 CRaC 原型实现的源码，都没有获得满意的答案。于是在 CRaC 的开发者邮件列表中询问，最终从核心 Committer 的[回复](https://mail.openjdk.org/pipermail/crac-dev/2025-April/002313.html)中得到解答。
 
-![CRaC 邮件列表](https://cdn.mazhen.tech/2024/202504271032455.jpg)
+<img src="https://cdn.mazhen.tech/2024/202504271032455.jpg" alt="CRaC 邮件列表" style="zoom: 33%;" />
 
 
 根据 CRaC 开发者的阐述，这并非技术上的限制，而是一个深思熟虑的**架构选择 (architectural choice)**。其核心设计理念可以概括为 **协调与适应**。  
@@ -468,11 +468,11 @@ do {
 } while (sig == -1 && errno == EINTR);
 ```
 
-当JVM完成检查点（checkpoint）后，会进入等待循环，后续恢复进程会通过`RESTORE_SIGNAL`信号唤醒 JVM。
+当 JVM 完成检查点（checkpoint）后，会进入等待循环，后续恢复进程会通过`RESTORE_SIGNAL`信号唤醒 JVM。
 
 #### Checkpoint 的进程交互
 
-在通过外部引擎 `criuengine`执行`criu dump`的过程中，使用了Linux 常见的编程技巧**double fork**，主要原因是为了**解耦**：通过让中间进程快速退出，使得执行 `criu dump` 的孙子进程成为孤儿进程，被 init 进程收养，从而“逃离”了原始 JVM 的进程树。
+在通过外部引擎 `criuengine`执行`criu dump`的过程中，使用了 Linux 常见的编程技巧**double fork**，主要原因是为了**解耦**：通过让中间进程快速退出，使得执行 `criu dump` 的孙子进程成为孤儿进程，被 init 进程收养，从而“逃离”了原始 JVM 的进程树。
 
 最终执行 `criu dump` 的进程不属于原始 JVM 进程的进程树，这避免了 CRIU 在执行 Checkpoint 时尝试冻结其自身的问题，保证了 Checkpoint 操作的正确性。
 
@@ -505,11 +505,11 @@ Restore 过程的目标是从 Checkpoint 镜像启动一个新的 JVM 实例，�
 
 进入 `crac::restore()` ，首先调用`compute_crengine()` ，确定外部引擎的路径和参数。
 
-然后使用当前进程 ID (`os::current_process_id()`) 创建一个唯一的 **共享内存 (SHM)** 路径，打开 **SHM** 文件 ，并将 Restore 参数写入到 **SHM**（`CracRestoreParameters::write_to`）。**SHM** 用于在 `crac::restore`（初始 JVM）和恢复后的 JVM 之间传递新的启动参数、属性和时间戳。
+然后使用当前进程 ID (`os::current_process_id()`) 创建一个唯一的 **共享内存 (SHM)** 路径，打开 **SHM** 文件，并将 Restore 参数写入到 **SHM**（`CracRestoreParameters::write_to`）。**SHM** 用于在 `crac::restore`（初始 JVM）和恢复后的 JVM 之间传递新的启动参数、属性和时间戳。
 
 最后调用 `os::execv(_crengine, _crengine_args)`。 `execv` 会用新的程序（外部引擎 `criuengine`）**替换**当前的 JVM 进程。初始启动的 JVM 到此结束。
 
-4. **外部引擎执行Restore (criuengine restore)** 
+4. **外部引擎执行 Restore (criuengine restore)** 
 
 外部引擎 `criuengine` 执行 `restore` 方法，构建 `criu restore` 命令参数。关键参数包括：
 - `-D <checkpoint_dir>`: 指定镜像目录。
@@ -771,7 +771,7 @@ $ mvn clean package
 $ java -XX:CRaCCheckpointTo=cr -Djdk.crac.collect-fd-stacktraces=true -jar target/example-jetty-1.0-SNAPSHOT.jar
 ```
 
-应用启动后，尝试访问 `http://localhost:8080`，应该能看到 “Hello World”。
+应用启动后，尝试访问 `http://localhost:8080`，应该能看到“Hello World”。
 
 ```shell
 $ curl localhost:8080
@@ -978,7 +978,7 @@ CRaC 的部署方案旨在收集 Java 应用程序初始化和预热所需的数
 ![crac](https://cdn.mazhen.tech/2024/202504281408920.webp)
 
 
-对于常见的 Web 应用程序，例如基于 Spring Boot 、Micronaut 或 Quarkus 构建的应用，采用 CRaC 的恢复机制可以将原先需要数秒的启动过程，**缩短至几十毫秒级别**。这意味着应用能够更快地进入服务状态，提升用户体验和资源利用率。
+对于常见的 Web 应用程序，例如基于 Spring Boot、Micronaut 或 Quarkus 构建的应用，采用 CRaC 的恢复机制可以将原先需要数秒的启动过程，**缩短至几十毫秒级别**。这意味着应用能够更快地进入服务状态，提升用户体验和资源利用率。
 
 为了具体展示 CRaC 的效果，我对 Glassfish 7 进行了 CRaC 的改造适配。在部署了标准 Spring PetClinic 应用的场景下：
 
@@ -1040,7 +1040,7 @@ Apusic JDK 的上游是华为公司开源的 BiSheng JDK。BiSheng JDK 本身在
 Apusic JDK 致力于提供稳定可靠的 Java 环境，目前为 **Java 8, 11, 17, 21** 等多个长期支持（LTS）版本提供构建和支持。
 
 - **为 JDK 17 和 21 引入 CRaC 支持** 
-Apusic 团队认识到 CRaC（Coordinated Restore at Checkpoint ) 技术在解决 Java 应用冷启动慢和提升运行时效率方面具有巨大潜力。然而，由于CRaC 项目尚未正式合并到 OpenJDK 主线，Apusic 采用了与 Azul 等厂商类似的方式，**主动将其核心功能移植（Port）并集成到了 Apusic JDK 17 和 Apusic JDK 21 发行版中**。
+Apusic 团队认识到 CRaC（Coordinated Restore at Checkpoint）技术在解决 Java 应用冷启动慢和提升运行时效率方面具有巨大潜力。然而，由于 CRaC 项目尚未正式合并到 OpenJDK 主线，Apusic 采用了与 Azul 等厂商类似的方式，**主动将其核心功能移植（Port）并集成到了 Apusic JDK 17 和 Apusic JDK 21 发行版中**。
 
 - **提供特定版本的双重发行版** 
 为了方便用户根据实际需求进行选择，针对集成了 CRaC 功能的 **JDK 17 和 JDK 21**，Apusic 提供了两种发行版：
