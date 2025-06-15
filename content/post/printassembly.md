@@ -5,8 +5,6 @@ draft: false
 tags: [java,jvm,linux]
 categories: [tech]
 ---
-使用 PrintAssembly 查看 JIT 编译后的汇编代码
-
 `-XX:+PrintAssembly` 是一个 JVM 诊断参数，用于查看 JIT 编译器为 Java 方法生成的原生汇编代码。
 
 直接查看汇编代码，让我们能绕开“黑盒”，直接审视 JIT 编译器对代码实际做了哪些优化，这有助于我们验证关于 JIT 行为的各种断言（例如指令重排、循环展开、安全点插入等），而不是依赖于社区中的一些“都市传说”或经验之谈。
