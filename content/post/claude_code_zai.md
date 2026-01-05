@@ -172,11 +172,11 @@ claude --dangerously-skip-permissions
 
 ### **输入多行**
 
+在 macOS 上，使用 `Option + Enter` 插入换行符（Line breaks）。可用通过设置，将换行操作绑定到 `Shift + Enter`。 
+
 ```bash
 /terminal-setup
 ```
-
-在 macOS 上，使用 `Option + Enter` 插入换行符（Line breaks），而不是直接发送消息，达到输入多行的效果。
 
 ### **上下文处理**
 
@@ -200,7 +200,6 @@ claude --continue
 ```
 
 ### 规划/头脑风暴
-
 如果你只有一个初步的想法，还没有详细的规划，可以先使用 **Superpowers** 的 `/superpowers:brainstorm` 进行头脑风暴，和 Claude Code 讨论，一步步梳理想法，清晰目标，最终完成详细的产品规划。
 
 有了规划，可以继续使用 `/superpowers:write-plan` 创建具体的实现方案，最后 `/superpowers:execute-plan`，方案落地执行。
@@ -217,6 +216,12 @@ be very in-depth and continue interviewing me continually until it's complete, t
 
 结合 **Superpowers**，我们可以在 **Superpowers** 完成设计后，让 **AskUserQuestionTool** 面试提问，相信经过 **AskUserQuestionTool** 的锤炼，产品设计更加清晰，符合你的预期。
 
+### 参考 spec-kit
+
+[Spec Kit](https://github.com/github/spec-kit) 是一套很重的规则，很多人不建议使用，但参考部分技巧还是可取的，例如 [yetone](https://x.com/yetone) 在[推文](https://x.com/yetone/status/2007727272497930468)中提到，可参考[The Nine Articles of Development](https://github.com/github/spec-kit/blob/main/spec-driven.md#the-nine-articles-of-development)的前三个规则。
+
+如何使用？可以将规则定义放在一个固定的路径，然后在 http://AGENTS.md/CLAUDE.md 中引用这个路径。
+
 ### UI/UX
 
 关于 UI/UX 设计，我还没有太多经验，不知道怎么生成令人惊艳的界面。目前只是在产品设计规划阶段，细化对界面的需求：
@@ -224,15 +229,36 @@ be very in-depth and continue interviewing me continually until it's complete, t
 ```text
 我希望使用 shadcn/ui，主题为 npx shadcn@latest add https://tweakcn.com/r/themes/claude.json，页面布局参考常见的 SaaS 软件，左右两栏布局，左边是菜单栏。
 ```
+上面的提示让 Claude Code 参考 [tweakcn.com](https://tweakcn.com/) 预定义的样式生成界面，也可以直接将[theme](https://tweakcn.com/editor/theme)的 `css` 代码直接复制给 Claude code。
 
-据说可以用 [frontend-design](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/frontend-design) 改进前端设计，可能要先学习完  [Frontend Aesthetics: A Prompting Guide](https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb) 才会用吧。
+据说可以用 [frontend-design](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/frontend-design) 改进前端设计，打算先学习  [Frontend Aesthetics: A Prompting Guide](https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb)。是否可以让 `frontend-design` 根据需求直接生成页面？
 
+另外可以参考一些生成前端页面的 prompt 或 skills：
+
+1. [designprompts.dev](https://www.designprompts.dev/) 和 [designprompt.vercel.app](https://designprompt.vercel.app/) 提供了多种前端风格的 prompt，可以直接复制使用。
+2. [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) UI/UX skill，包含了多种前端样式。
 
 ### 前端测试
 
 配置好 `Playwright MCP server`，就可以在 Claude Code 中明确要求使用 **Playwright** 进行前端功能测试。
 
 如果是在本地开发，也可以使用 [dev-browser](https://github.com/SawyerHood/dev-browser) 进行前端测试。
+
+### 状态栏定制
+
+目前有两个定制 statusline 的小工具，都能实时显示使用的模型，context usage 等信息。
+
+1. [Claude HUD](https://github.com/jarrodwatts/claude-hud)
+2. [Claude Powerline](https://github.com/Owloops/claude-powerline)
+
+我选择了 [Claude Powerline](https://github.com/Owloops/claude-powerline)，配置很简单，在 `.claude/settings.json` 中添加如下配置即可：
+
+```json
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y @owloops/claude-powerline@latest --style=powerline --theme=gruvbox"
+  },
+```
 
 ## 学习教程
 
@@ -241,5 +267,3 @@ be very in-depth and continue interviewing me continually until it's complete, t
 * [吴恩达的 Claude Code 课程](https://www.bilibili.com/video/BV1k1bBzTEF5)
 
 * [GLM Coding 开发者社区](https://zhipu-ai.feishu.cn/wiki/TrlMwahsfihLrKkZsy0cpuTenCz)
-
-* [Spec Kit](https://github.com/github/spec-kit)
