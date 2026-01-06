@@ -91,7 +91,7 @@ npx @z_ai/coding-helper
 
 ```bash
 claude mcp add --transport http context7 https://mcp.context7.com/mcp \
-  --header "CONTEXT7_API_KEY: YOUR_API_KEY"
+  --header "CONTEXT7_API_KEY: YOUR_API_KEY" -s user
 ```
 
 * [Fetch MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch)
