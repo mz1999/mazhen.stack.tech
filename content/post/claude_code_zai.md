@@ -172,11 +172,12 @@ claude --dangerously-skip-permissions
 
 ### **输入多行**
 
-在 macOS 上，使用 `Option + Enter` 插入换行符（Line breaks）。可用通过设置，将换行操作绑定到 `Shift + Enter`。 
+~~在 macOS 上，使用 `Option + Enter` 插入换行符（Line breaks）。可用通过设置，将换行操作绑定到 `Shift + Enter`~~。 
 
 ```bash
 /terminal-setup
 ```
+Claude Code 2.1.0 [最新发布](https://x.com/bcherny/status/2009072293826453669)，使用 `Shift+Enter` 键来插入换行符，在 **iTerm2**, **WezTerm**, **Ghostty** 和 **Kitty** 上无需进行任何设置。
 
 ### **上下文处理**
 
@@ -249,9 +250,21 @@ be very in-depth and continue interviewing me continually until it's complete, t
 目前有两个定制 statusline 的小工具，都能实时显示使用的模型，context usage 等信息。
 
 1. [Claude HUD](https://github.com/jarrodwatts/claude-hud)
+
+```bash
+# Step 1: Add the marketplace
+/plugin marketplace add jarrodwatts/claude-hud
+
+# Step 2: Install the plugin
+/plugin install claude-hud
+
+# Step 3: Configure the statusline
+/claude-hud:setup
+```
+
 2. [Claude Powerline](https://github.com/Owloops/claude-powerline)
 
-我选择了 [Claude Powerline](https://github.com/Owloops/claude-powerline)，配置很简单，在 `.claude/settings.json` 中添加如下配置即可：
+[Claude Powerline](https://github.com/Owloops/claude-powerline) 的配置更简单，在 `.claude/settings.json` 中添加如下配置即可：
 
 ```json
   "statusLine": {
