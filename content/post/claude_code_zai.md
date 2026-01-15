@@ -106,6 +106,12 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp \
 claude mcp add playwright npx @playwright/mcp@latest
 ```
 
+* [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp)
+
+```bash
+claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
+```
+
 ## 精选 Skills
 
 ### [官方 skills](https://github.com/anthropics/claude-plugins-official)
@@ -230,6 +236,7 @@ be very in-depth and continue interviewing me continually until it's complete, t
 ```text
 我希望使用 shadcn/ui，主题为 npx shadcn@latest add https://tweakcn.com/r/themes/claude.json，页面布局参考常见的 SaaS 软件，左右两栏布局，左边是菜单栏。
 ```
+
 上面的提示让 Claude Code 参考 [tweakcn.com](https://tweakcn.com/) 预定义的样式生成界面，也可以直接将[theme](https://tweakcn.com/editor/theme)的 `css` 代码直接复制给 Claude code。
 
 据说可以用 [frontend-design](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/frontend-design) 改进前端设计，打算先学习  [Frontend Aesthetics: A Prompting Guide](https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb)。是否可以让 `frontend-design` 根据需求直接生成页面？
@@ -238,12 +245,21 @@ be very in-depth and continue interviewing me continually until it's complete, t
 
 1. [designprompts.dev](https://www.designprompts.dev/) 和 [designprompt.vercel.app](https://designprompt.vercel.app/) 提供了多种前端风格的 prompt，可以直接复制使用。
 2. [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) UI/UX skill，包含了多种前端样式。
+3. [ui-skills](https://www.ui-skills.com/) 一个专门用来设计界面 UI 的 Claude Skill。
+
+### Stitch
+
+[Stitch](https://stitch.google.com/) ，Google 出品的 UI 设计器，必须拎出来作为单独一个小节介绍。可以根据你的描述内容，直接输出高保真效果图，并能导出 HTML 页面。
+
+我觉得可以将前面 Superpowers 生成的产品功能规划，喂给 Stitch，让它生成界面效果图，导出 HTML 页面，然后让 Claude Code 根据页面，填充功能。
 
 ### 前端测试
 
 配置好 `Playwright MCP server`，就可以在 Claude Code 中明确要求使用 **Playwright** 进行前端功能测试。
 
-如果是在本地开发，也可以使用 [dev-browser](https://github.com/SawyerHood/dev-browser) 进行前端测试。
+~~如果是在本地开发，也可以使用 [dev-browser](https://github.com/SawyerHood/dev-browser) 进行前端测试。~~
+
+**Chrome DevTools MCP** 虽然只支持 Chrome，但它支持更多的性能分析和浏览器调试功能，优先推荐使用。
 
 ### 状态栏定制
 
