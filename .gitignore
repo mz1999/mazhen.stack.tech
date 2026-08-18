@@ -2,3 +2,6 @@
 .hugo_build.lock
 public/
 resources/
+.agents/
+.claude/
+skills-lock.json
