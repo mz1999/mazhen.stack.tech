@@ -125,7 +125,23 @@ Claude Code 会先确认自己位于 Herdr pane 中，再查看当前布局。�
 
 ![Claude Code 通过 Herdr 让 Codex 审查当前 diff](https://cdn.mazhen.tech/2026/20260818184525492.svg)
 
-从使用者的角度看，结果自动回到了 Claude Code。底下的动作仍然很具体。Herdr CLI 通过本地 socket 操作 Codex 所在的 PTY，写入提示，等待生命周期状态，再把 `agent read` 读到的终端文本交回 Claude Code。Codex 没有直接向 Claude Code 推送结构化消息，两个 Agent 也没有自动共享上下文。
+### 一次实际的文档事实核查
+
+我最近在远程机器 `hp-linux` 上跑过一次实际委派。Claude Code 位于 `apusic-jdk-build` workspace 的左侧 pane，我让它使用 Herdr，叫一个 Codex 对 `apusic-jdk-site` 仓库的标准版产品文档做独立事实核查，检查错误、遗漏和前后不一致，全程不改文件。
+
+我在 Claude Code 里输入的原话很短。
+
+> `/herdr 我希望你用 codex 对前面的文档进行一次全面 review`
+
+然后流程就开始了。
+
+![Claude Code 通过 Herdr 启动 Codex 做文档事实核查](https://cdn.mazhen.tech/2026/20260819145717768.png)
+
+Claude Code 先执行 `pane split --current --direction right --cwd "$PWD" --no-focus`，从返回结果里拿到新 pane ID。接着它用 `agent start` 启动名为 `docreviewer` 的 Codex，再通过 `agent prompt` 送入核查范围和只读要求。左侧 Claude Code 没有失去焦点，右侧 Codex 已经开始工作，侧边栏同时列出了 `claude` 和 `docreviewer`。
+
+Codex 收到任务后，先读取文档审查范围和 `tech-doc-style-chinese` Skill，随后建立基准清单，准备逐项核查特性、参数、路径和版本信息。我保存画面时，`docreviewer` 仍处于 `working`，最终缺陷清单还没有返回。这次操作能证明 Claude Code 已经完成创建、启动和派发，后面的结果回收仍要等 `agent read`。
+
+等 Codex 完成、Claude Code 执行 `agent read` 以后，结果才会回到原会话。使用者看起来像是 Claude Code 自动拿到了审查意见，底下的动作仍然很具体。Herdr CLI 通过本地 socket 操作 Codex 所在的 PTY，写入提示，等待生命周期状态，再把终端文本交回 Claude Code。Codex 没有直接向 Claude Code 推送结构化消息，两个 Agent 也没有自动共享上下文。
 
 这套流程对应的命令并不神秘。下面这段通常由 Claude Code 按 Skill 执行，系统需要安装 `jq`。
 
@@ -154,9 +170,9 @@ herdr agent read reviewer \
 
 `agent start` 不会创建 pane。它只负责在已有的空闲 pane 中启动 Agent，所以前面的 `pane split` 不能省。`agent prompt --wait` 等待的是生命周期状态。Codex 如果进入 `blocked`，Claude Code 还要先读状态和输出，遇到权限或产品判断时仍可能回来问我。
 
-两个 Agent 在这里使用同一个 Git 工作目录。我给自己的规则是 Claude Code 写，Codex 只读审查。只读要求要写进给 Codex 的提示，Herdr 本身不会强制执行。我还没有在这套工作流里使用 worktree，以后真要让两个 Agent 同时写，再用独立 worktree 隔开。
+Herdr Skill 默认让 sibling pane 沿用当前 cwd，这不等于 Codex 只能审查当前仓库。上面的文档核查里，两个 pane 都从 `apusic-jdk-build` 启动，Claude Code 在提示中把 `apusic-jdk-site` 的绝对路径交给了 `docreviewer`。审查范围最终由任务提示和文件权限决定。
 
-这里没有一场值得渲染的审查事故。它就是我每天会重复的流程。Claude Code 干完以后叫来 Codex，等它看完，再把结果带回原来的会话。旁边的 pane 一直可见，我随时可以切过去看，但不必手工在两个 Agent 之间传话。
+我给自己的规则仍然是 Claude Code 写，Codex 只读审查。只读要求要写进给 Codex 的提示，Herdr 本身不会强制执行。我还没有在这套工作流里使用 worktree，以后真要让两个 Agent 同时写，再用独立 worktree 隔开。旁边的 pane 一直可见，我随时可以切过去看，但不必手工在两个 Agent 之间传话。
 
 ## SSH 断了，任务还在
 
